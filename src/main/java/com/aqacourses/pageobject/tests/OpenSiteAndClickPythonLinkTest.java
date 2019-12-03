@@ -13,14 +13,14 @@ public class OpenSiteAndClickPythonLinkTest extends BaseTest {
 
         // Initialize HomePage
         HomePage homePage = openSite();
+        log("Initialized HomePage");
 
         // Click on Python Link
         PythonPage pythonPage = homePage.clickPythonLink();
+        log("Clicked on Python link");
 
         // Verify title
         pythonPage.verifyTitle();
-
-        // CLose site
-        closeSite();
+        log("Verified title");
     }
 }

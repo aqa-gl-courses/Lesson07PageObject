@@ -2,8 +2,9 @@ package com.aqacourses.pageobject.base;
 
 import com.aqacourses.pageobject.pages.HomePage;
 import com.aqacourses.pageobject.utils.YamlParser;
-import java.io.IOException;
-import java.util.Collections;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Rule;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,10 +12,22 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+
 public class BaseTest {
 
+    // Instance of the WebDriver and WebDriverWait
     private WebDriver driver;
     private WebDriverWait wait;
+
+    // Logger
+    private Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
+
+    // Rule
+    @Rule public RunTestRules runTestRules = new RunTestRules(this);
 
     /** Constructor */
     public BaseTest() {
@@ -49,11 +62,6 @@ public class BaseTest {
         return new HomePage(this);
     }
 
-    /** Close site and make driver quit */
-    public void closeSite() {
-        driver.quit();
-    }
-
     /**
      * Get instance of driver
      *
@@ -70,5 +78,32 @@ public class BaseTest {
      */
     public void waitTillElementIsVisible(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    /**
+     * Write down info message
+     *
+     * @param message
+     */
+    public void log(String message) {
+        logger.info(message);
+    }
+
+    /**
+     * Write down error message
+     *
+     * @param error
+     */
+    public void error(String error) {
+        logger.error(error);
+    }
+
+    /**
+     * Get date and time
+     *
+     * @return
+     */
+    public String getDateTime() {
+        return new SimpleDateFormat("YYYY-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
     }
 }
